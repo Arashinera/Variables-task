@@ -1,50 +1,41 @@
 package Variables;
 
-//Добавимо нову бібліотеку Scanner у наш клас. Вона надає можливість використовувати сканер для вводу даних :
-
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Locale;
 
 public class MainClass {
 
-    //Створюємо константи :
-    private static final double SMARTPHONE_PRICE = 305.99;
-    private static final double LAPTOP_PRICE = 570.95;
-    private static final String CURRENCY = "EUR";
-
     public static void main(String[] args) {
 
-        //Налаштовуємо сканер та локейл :
+        int choice = 0;
+
         Scanner input = new Scanner(System.in);
         input.useLocale(Locale.ENGLISH);
 
-        String userName, productName, street;
-        int houseNumber;
+        try {
+            do {
+                System.out.println("""
+                    Welcome to NAVI shop!
+                    Choose the option:
+                    1) Create orders
+                    0) Exit
+                    """);
 
-        System.out.println("Order №1\nPlease, tell me your name :");
-        userName = input.nextLine();
-        System.out.println("What type of product do you want to buy?  :");
-        productName = input.nextLine();
-        System.out.println("What's your address street?");
-        street = input.nextLine();
-        System.out.println("What's your house number?");
-        houseNumber = input.nextInt();
+                choice = input.nextInt();
 
-        System.out.println("\nOrder №1\nClient : " + userName + ".\nProduct : " + productName + ", price " + CURRENCY + SMARTPHONE_PRICE + ".\nAddress : " + street + ", " + houseNumber + ".\n");
+            } while (choice < 0 || choice > 1);
+        } catch (InputMismatchException exception) {
+            System.out.println(exception.getMessage());
+        }
 
-        //Очищуємо наш сканер аби після int не було перешкод :
-        input.nextLine();
 
-        System.out.println("Order №2\nPlease, tell me your name :");
-        userName = input.nextLine();
-        System.out.println("What type of product do you want to buy? :");
-        productName = input.nextLine();
-        System.out.println("What's your address street?");
-        street = input.nextLine();
-        System.out.println("What's your house number?");
-        houseNumber = input.nextInt();
-
-        System.out.println("\nOrder №2\nClient : " + userName + ".\nProduct : " + productName + ", price " + CURRENCY + LAPTOP_PRICE + ".\nAddress : " + street + ", " + houseNumber + ".");
-
+        if (choice == 1) {
+            List<Order> orderList = OrderList.newOrderList();
+            OrderList.showOrderList(orderList);
+        } else {
+            System.exit(0);
+        }
     }
 }
